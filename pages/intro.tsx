@@ -5,7 +5,6 @@ import TitleText from "components/TitleText";
 
 
 export default function Intro({ navigation }) {
-  
   useEffect(() => { // 로그인 페이지로 이동
     setTimeout(() => {
       navigation.navigate("Login");
@@ -17,7 +16,7 @@ export default function Intro({ navigation }) {
       style={styles.container}
       colors={["#FF5858", "#fc5a5ad4", "#f95d5db1"]}
     >
-      <TitleText color="#ffffff" fontSize="60" />
+      <TitleText color="#ffffff" fontSize={60} />
     </LinearGradient>
   );
 }

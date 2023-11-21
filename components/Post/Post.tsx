@@ -7,7 +7,8 @@ import Footer from "./Footer";
 const Wrapper = styled.View`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  margin: 10px;
+  box-sizing: border-box;
   height: fit-content;
   border: 3px solid #f8f8f8;
 `;
@@ -32,20 +33,20 @@ export default function Post() {
     <Wrapper>
       <PostHeader image={null} username={writer} />
       {/* <PostImage /> */}
-      {/* <Toggles
+      <Toggles
         likeCount={likeCount}
         isLiked={isLiked}
         isMarked={isMarked}
         handleLike={handleLike}
         handleMark={handleComment}
-      /> */}
+      />
       <Content>{content}</Content>
       <Comments>
         {
           // map Postcomment
         }
       </Comments>
-      {/* <Footer handleComment={handleComment} /> */}
+      <Footer handleComment={handleComment} />
     </Wrapper>
   );
 }

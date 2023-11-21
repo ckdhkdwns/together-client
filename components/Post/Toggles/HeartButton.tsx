@@ -7,6 +7,7 @@ const Wrapper = styled.TouchableOpacity`
   display: flex;
   flex-direction: column;
   height: 30px;
+  align-items: center;
 `;
 
 const LikeCount = styled.Text`

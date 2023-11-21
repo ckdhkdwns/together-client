@@ -15,7 +15,7 @@ export default function MarkButton({ isMarked, handleMark }: MarkButtonProps) {
   return (
     <Wrapper onPress={() => handleMark()}>
       {isMarked ? (
-        <FontAwesome name="star" size={24} color="yellow" />
+        <FontAwesome name="star" size={24} color="#FFD600" />
       ) : (
         <FontAwesome name="star-o" size={24} color="black" />
       )}

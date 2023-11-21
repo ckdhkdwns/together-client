@@ -1,3 +1,4 @@
+import SignupBox from "components/Signup/SignupBox";
 import TitleText from "components/TitleText";
 import React from "react";
 import styled from "styled-components/native";
@@ -5,30 +6,11 @@ import styled from "styled-components/native";
 const Wrapper = styled.View`
   display: flex;
   flex-direction: column;
-`;
-
-const LoginBox = styled.View`
-  background: #f8f8f8;
-  border-radius: 50px;
-  display: flex;
-  flex-direction: column;
-  margin: 206px auto 41px;
-  width: 325px;
-  height: 336px;
-`;
-
-const AppTitle = styled.Text`
-  margin: 44px auto 0px;
-  font-size: 43px;
-`;
-
-const Input = styled.TextInput`
   background: #ffffff;
-  border: 1px solid #a0a0a0;
-  height: 44px;
-  width: 267px;
-  margin: 22px auto 0px;
+  height: 100%;
+  
 `;
+
 
 const Button = styled.TouchableOpacity`
   background: #ff5858;
@@ -36,12 +18,12 @@ const Button = styled.TouchableOpacity`
   height: 46px;
   width: 182px;
   margin: 0 auto;
-`;
-const LoginButton = styled(Button)`
-  margin-top: 29px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 `;
 
-const RegisterButton = styled(Button)`
+
+const LoginButton = styled(Button)`
+
   width: 325px;
 `;
 
@@ -51,23 +33,16 @@ const ButtonText = styled.Text`
   margin: auto auto;
 `;
 
-export default function SignUp() {
+export default function SignUp({navigation}) {
+  const onPressLogin = () => {
+    navigation.navigate("Login");
+  }
   return (
     <Wrapper>
-      <LoginBox>
-        <TitleText color="#000000" fontSize="44"/>
-        <Input placeholder="이메일 주소"></Input>
-        <Input placeholder="이름"></Input>
-        <Input placeholder="닉네임"></Input>
-        <Input placeholder="비밀번호"></Input>
-        <Input placeholder="비밀번호 확인"></Input>
-        <LoginButton>
-          <ButtonText>회원가입</ButtonText>
-        </LoginButton>
-      </LoginBox>
-      <RegisterButton>
+      <SignupBox />
+      <LoginButton onPress={onPressLogin}>
         <ButtonText>이미 계정이 있으신가요? 로그인</ButtonText>
-      </RegisterButton>
+      </LoginButton>
     </Wrapper>
   );
 }

@@ -1,26 +1,38 @@
-import React from 'react'
-import styled from 'styled-components/native';
-import HeartButton from './HeartButton';
-import MarkButton from './MarkButton';
+import React from "react";
+import styled from "styled-components/native";
+import HeartButton from "./HeartButton";
+import MarkButton from "./MarkButton";
 
 const Wrapper = styled.View`
-    height: 30px;
-`
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 10px;
+`;
 
 type TogglesProps = {
-  likeCount : number;
+  likeCount: number;
 
-  isLiked : boolean;
-  isMarked : boolean;
+  isLiked: boolean;
+  isMarked: boolean;
 
-  handleLike : Function;
-  handleMark : Function;
-}
-export default function Toggles({ likeCount, isLiked, isMarked, handleLike, handleMark }: TogglesProps) {
+  handleLike: Function;
+  handleMark: Function;
+};
+export default function Toggles({
+  likeCount,
+  isLiked,
+  isMarked,
+  handleLike,
+  handleMark,
+}: TogglesProps) {
   return (
     <Wrapper>
-        <HeartButton isLiked={isLiked} likeCount={likeCount} handleLike={handleLike}/>
-        <MarkButton isMarked={isMarked} handleMark={handleMark}/>
+      <MarkButton isMarked={isMarked} handleMark={handleMark} />
+      <HeartButton
+        isLiked={isLiked}
+        likeCount={likeCount}
+        handleLike={handleLike}
+      />
     </Wrapper>
-  )
+  );
 }
