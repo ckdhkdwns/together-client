@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components/native";
 import { Feather } from "@expo/vector-icons";
 
@@ -36,10 +36,14 @@ type FormProps = {
 };
 
 export default function Form({ _type, value }: FormProps) {
+  const [inputValue, setInputValue]  = useState(value);
+  const onInputChange = (e) => {
+    setInputValue(e.target.value);
+  }
   return (
     <Wrapper>
       <Title>{_type}</Title>
-      <TInput value={value} />
+      <TInput onChange={onInputChange} value={inputValue} />
       <ConfirmButton>
         <Feather name="check" size={34} color="#ff5858" />
       </ConfirmButton>
