@@ -1,24 +1,18 @@
-import Login from "./pages/login";
+import Login from "./pages/start/login";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import SignUp from "./pages/signup";
-import Intro from "pages/intro";
-import TabNavigator from "components/TabNavigator";
+import SignUp from "./pages/start/signup";
+import Intro from "pages/start/intro";
+import MainTab from "pages/main/mainTab";
 import { RecoilRoot } from "recoil";
+import StartStack from "pages/start/startStack";
 
-const Stack = createNativeStackNavigator<StackParamList>();
 
 export default function App() {
   return (
     <RecoilRoot>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Intro" component={Intro} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Signup" component={SignUp} />
-          <Stack.Screen name="Main" component={TabNavigator} />
-          {/* stack -> tab */}
-        </Stack.Navigator>
+        <StartStack />
       </NavigationContainer>
     </RecoilRoot>
   );

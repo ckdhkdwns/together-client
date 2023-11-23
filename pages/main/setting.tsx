@@ -1,4 +1,4 @@
-import SettingHeader from 'components/PageHeader/Setting'
+import SettingHeader from 'components/PageHeader/SettingHeader'
 import React from 'react'
 import {Text} from 'react-native'
 import styled from 'styled-components/native'

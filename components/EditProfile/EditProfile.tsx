@@ -7,12 +7,14 @@ import Form from "./Form";
 
 import * as ImagePicker from "expo-image-picker";
 import ChangeImageModal from "./ChangeImageModal";
+import UserHeader from "components/PageHeader/UserHeader";
 
 
 const Wrapper = styled.View`
   display: flex;
   padding-top: 20px;
   height: 100%;
+  background: #ffffff;
 `;
 
 const ImageWrapper = styled.View`

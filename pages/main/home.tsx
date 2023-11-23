@@ -3,9 +3,11 @@ import styled from "styled-components/native";
 
 import { StyleSheet, Text } from "react-native";
 import TitleText from "components/TitleText";
-import Post from "components/Post/Post";
-import HomeHeader from "components/PageHeader/Home";
+import Post from "components/Posts/Post/Post";
+import HomeHeader from "components/PageHeader/HomeHeader";
 import Search from "components/Search/Search";
+import { createStackNavigator } from "@react-navigation/stack";
+import Posts from "components/Posts/Posts";
 
 const Wrapper = styled.SafeAreaView`
   display: flex;
@@ -19,24 +21,18 @@ const Contents = styled.View`
   flex-direction: column;
 `;
 
+const HomeStack = createStackNavigator();
+
+
 export default function Home() {
   const [posts, setPosts] = useState({});
-  const [isSearching, setIsSearching] = useState(false);
-
-  const handleSearchButton = () => {
-    setIsSearching(!isSearching);
-  };
   return (
     <Wrapper>
-      <HomeHeader isSearching={isSearching} handleSearchButton={handleSearchButton} />
-      {isSearching ? (
-        <Search />
-      ) : (
-        <Contents>
-          <Post />
-          {/* map post */}
-        </Contents>
-      )}
+      <HomeStack.Navigator
+      screenOptions={{header: () => (<HomeHeader />)}}>
+        <HomeStack.Screen name="posts" component={Posts} />
+        <HomeStack.Screen name="search" component={Search} />
+      </HomeStack.Navigator>
     </Wrapper>
   );
 }

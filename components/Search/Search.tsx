@@ -1,7 +1,7 @@
-import SettingHeader from "components/PageHeader/Setting";
+import SettingHeader from "components/PageHeader/SettingHeader";
 import React, { useState } from "react";
 import styled from "styled-components/native";
-import HomeHeader from "../PageHeader/Home";
+import HomeHeader from "../PageHeader/HomeHeader";
 import { Feather } from "@expo/vector-icons";
 import UserLink from "./UserLink";
 

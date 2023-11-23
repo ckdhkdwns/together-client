@@ -5,11 +5,13 @@ import InfoItem from "./InfoItem";
 import { FontAwesome } from "@expo/vector-icons";
 import { userInfoAtom, userPageStateAtom } from "atoms";
 import { useRecoilState } from "recoil";
+import UserHeader from "components/PageHeader/UserHeader";
 
 const Wrapper = styled.View`
   display: flex;
   flex-direction: column;
   padding: 10px 18px;
+  background: #ffffff;
   border: 0px solid #f8f8f8;
   border-bottom: 2px;
 `;
@@ -17,6 +19,7 @@ const Information = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+
 `;
 
 const ProfileImage = styled.Image`
@@ -48,6 +51,7 @@ const Footer = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
 `;
 const NameWrapper = styled.View`
   display: flex;
@@ -81,14 +85,16 @@ const EPText = styled.Text`
 
 const ShowMarkedButton = styled.TouchableOpacity``;
 
-export default function UserProfile() {
+export default function UserProfile({ navigation }) {
   const [userPageState, setUserPageState] = useRecoilState(userPageStateAtom);
   const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
 
 
   const handleEditButton = () =>{
+    navigation.navigate("edit")
     setUserPageState('edit');
   }
+
   return (
     <Wrapper>
       <Information>
