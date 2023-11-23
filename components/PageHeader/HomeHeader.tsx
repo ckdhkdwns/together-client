@@ -4,6 +4,7 @@ import TitleText from "../TitleText";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Header = styled.View`
   display: flex;
@@ -40,14 +41,14 @@ const SearchButton = styled.TouchableOpacity`
 
 export default function HomeHeader() {
   const navigation = useNavigation<StackNavigationProp<HomeStackParamList>>();
-  const [routeName, setRouteName] = useState("posts");
+  const [routeName, setRouteName] = useState("Posts");
   const route = useRoute();
 
   const handlePrevButton = () => {
-    navigation.navigate("posts");
+    navigation.navigate("Posts");
   };
   const handleSearchButton = () => {
-    navigation.navigate("search");
+    navigation.navigate("Search");
   };
 
   useEffect(() => {
@@ -55,20 +56,22 @@ export default function HomeHeader() {
   }, []);
 
   return (
-    <Header>
-      {routeName == "search" && (
-        <PrevButton onPress={() => handlePrevButton()}>
-          <Feather name="chevron-left" size={40} color="#9f9f9f" />
-        </PrevButton>
-      )}
+    <SafeAreaView style={{ paddingBottom: -50, backgroundColor: "#ffffff" }}>
+      <Header>
+        {routeName == "Search" && (
+          <PrevButton onPress={() => handlePrevButton()}>
+            <Feather name="chevron-left" size={40} color="#9f9f9f" />
+          </PrevButton>
+        )}
 
-      <TitleText color="#000000" fontSize={33} />
+        <TitleText color="#000000" fontSize={33} />
 
-      {routeName == "posts" && (
-        <SearchButton onPress={() => handleSearchButton()}>
-          <Feather size={32} color="#ffffff" name="search" />
-        </SearchButton>
-      )}
-    </Header>
+        {routeName == "Posts" && (
+          <SearchButton onPress={() => handleSearchButton()}>
+            <Feather size={32} color="#ffffff" name="search" />
+          </SearchButton>
+        )}
+      </Header>
+    </SafeAreaView>
   );
 }

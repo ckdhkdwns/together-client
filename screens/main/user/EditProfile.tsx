@@ -3,12 +3,11 @@ import styled from "styled-components/native";
 import Modal from "react-native-modal";
 import { useRecoilState } from "recoil";
 import { userInfoAtom, userPageStateAtom } from "atoms";
-import Form from "./Form";
+import Form from "../../../components/EditProfile/Form";
 
 import * as ImagePicker from "expo-image-picker";
-import ChangeImageModal from "./ChangeImageModal";
+import ChangeImageModal from "../../../components/EditProfile/ChangeImageModal";
 import UserHeader from "components/PageHeader/UserHeader";
-
 
 const Wrapper = styled.View`
   display: flex;
@@ -56,7 +55,7 @@ export default function EditProfile() {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
-      aspect: [4, 3],
+      aspect: [4, 4],
       quality: 1,
     });
     if (!!result) {

@@ -46,15 +46,16 @@ const WriteButton = styled.TouchableOpacity`
 
 export default function UserHeader({}) {
   const [userPageState, setUserPageState] = useRecoilState(userPageStateAtom); // profile, edit, writePost, viewPost(user's specific post)
-  const [routeName, setRouteName] = useState("profile");
+  const [routeName, setRouteName] = useState("Profile");
   const route = useRoute();
-  const navigation = useNavigation<StackNavigationProp<UserStackParamList>>();
+  const tabNavigation = useNavigation<StackNavigationProp<UserStackParamList>>();
+  const stackNavigation = useNavigation<StackNavigationProp<StartStackParamList>>();
 
   const handlePrevButton = () => {
-    navigation.navigate("profile");
+    tabNavigation.navigate("Profile");
   };
   const handleWriteButton = () => {
-    navigation.navigate("write");
+    stackNavigation.navigate("SelectPhoto");
   };
 
   useEffect(() => {
@@ -64,14 +65,14 @@ export default function UserHeader({}) {
   return (
     <SafeAreaView style={{paddingBottom: -50, backgroundColor: "#ffffff" }} >
       <Header>
-        {routeName != "profile" && (
+        {routeName == "Edit" && (
           <PrevButton onPress={() => handlePrevButton()}>
             <Feather name="chevron-left" size={40} color="#9f9f9f" />
           </PrevButton>
         )}
         <TitleText color="#000000" fontSize={33} />
 
-        {routeName == "profile" && (
+        {routeName == "Profile" && (
           <WriteButton onPress={() => handleWriteButton()}>
             <Feather size={44} color="#ffffff" name="plus" />
           </WriteButton>
@@ -80,6 +81,4 @@ export default function UserHeader({}) {
     </SafeAreaView>
   );
 }
-function StackNavigationProps() {
-  throw new Error("Function not implemented.");
-}
+

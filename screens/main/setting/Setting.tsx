@@ -1,9 +1,8 @@
 import SettingHeader from 'components/PageHeader/SettingHeader'
 import React from 'react'
-import {Text} from 'react-native'
 import styled from 'styled-components/native'
 
-const Wrapper = styled.SafeAreaView`
+const Wrapper = styled.View`
   background: #ffffff;
   height: 100%;
 `
@@ -47,7 +46,7 @@ export default function Setting() {
   }
   return (
     <Wrapper>
-      <SettingHeader/>
+      <SettingHeader />
       <LogoutButton onPress={handleLogout}>
         <LogoutText>로그아웃</LogoutText>
       </LogoutButton>

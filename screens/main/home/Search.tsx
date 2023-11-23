@@ -1,9 +1,9 @@
 import SettingHeader from "components/PageHeader/SettingHeader";
 import React, { useState } from "react";
 import styled from "styled-components/native";
-import HomeHeader from "../PageHeader/HomeHeader";
+import HomeHeader from "../../../components/PageHeader/HomeHeader";
 import { Feather } from "@expo/vector-icons";
-import UserLink from "./UserLink";
+import UserLink from "../../../components/Search/UserLink";
 
 const Wrapper = styled.View`
   display: flex;

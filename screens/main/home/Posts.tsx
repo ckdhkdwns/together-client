@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import Post from './Post/Post'
+import Post from '../../../components/Post/Post'
 
 const Wrapper = styled.View`
     display: flex;

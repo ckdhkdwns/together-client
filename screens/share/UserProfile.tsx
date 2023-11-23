@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components/native";
 import { Image } from "react-native";
-import InfoItem from "./InfoItem";
+import InfoItem from "../../components/UserProfile/InfoItem";
 import { FontAwesome } from "@expo/vector-icons";
 import { userInfoAtom, userPageStateAtom } from "atoms";
 import { useRecoilState } from "recoil";
