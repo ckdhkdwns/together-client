@@ -39,7 +39,7 @@ const NextButton = styled.TouchableOpacity`
 `;
 
 const NextText = styled.Text`
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   color: #ff5858;
 `;
@@ -49,8 +49,8 @@ const RIText = styled.Text`
   background: #ffffff;
   line-height: 54px;
   font-weight: 700;
-  font-size: 20px;
-  padding-left: 12px;
+  font-size: 16px;
+  padding-left: 16px;
 `;
 
 const ChosenPhoto = styled.Image`

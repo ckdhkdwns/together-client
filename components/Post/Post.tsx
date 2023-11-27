@@ -1,52 +1,85 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components/native";
 import PostHeader from "./Header";
 import Toggles from "./Toggles/Toggles";
 import Footer from "./Footer";
+import { View, Image } from "react-native";
+import { Dimensions } from "react-native";
+import PostComment from "./Comment";
 
 const Wrapper = styled.View`
   display: flex;
   flex-direction: column;
-  margin: 10px;
   box-sizing: border-box;
-  height: fit-content;
-  border: 3px solid #f8f8f8;
+  background: #ffffff;
+  width: 100%;
 `;
 
-const Content = styled.Text``;
-const Comments = styled.View`
-  display: flex;
-  flex-direction: column;
+const Sqaure = styled.View``;
+const Divider = styled.View`
+  border: 0px solid #efefef;
+  border-top-width: 1px;
+  margin: auto;
 `;
-const PostImage = styled.Image``;
-export default function Post() {
-  const [writer, setWriter] = useState("동그라미");
-  const [content, setContent] = useState("너무 귀여워요");
-  const [likeCount, setLikeCount] = useState(10);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isMarked, setIsMarked] = useState(false);
+const Content = styled.Text`
+  margin: 5px 0 15px;
+  font-size: 16px;
+  padding: 0px 30px;
+  font-weight: 500; 
+`;
+const Comments = styled.FlatList`  
+  margin: 0 30px;
+`;
 
+export default function Post({ post }) {
   const handleLike = () => {};
   const handleMark = () => {};
   const handleComment = (content: string) => {};
+
+  // useEffect(() => {
+  //   ref.current.measure((x, y, width, height, pageX, pageY) => {
+  //     setImageSize(width);
+  //   });
+  // }, []);
+  const squareSize = (Dimensions.get("window").width * 92) / 100;
+
   return (
     <Wrapper>
-      <PostHeader image={null} username={writer} />
-      {/* <PostImage /> */}
+      <PostHeader
+        image={post.item.profileImage}
+        username={post.item.username}
+        writedAt={post.item.writedAt}
+      />
+
+      <Image
+        style={{
+          width: squareSize,
+          height: squareSize,
+          borderRadius: 10,
+          marginLeft: (squareSize * 1) / 25,
+        }}
+        source={{ uri: post.item.thumbnail }}
+      />
+
       <Toggles
-        likeCount={likeCount}
-        isLiked={isLiked}
-        isMarked={isMarked}
+        likeCount={post.item.likeCount}
+        isLiked={post.item.liked}
+        isMarked={post.item.marked}
         handleLike={handleLike}
         handleMark={handleComment}
       />
-      <Content>{content}</Content>
-      <Comments>
-        {
-          // map Postcomment
-        }
-      </Comments>
+      {/* <Divider style={{width: squareSize}}></Divider> */}
+      <Content>{post.item.content}</Content>
+      <Comments
+        data={post.item.comments}
+        renderItem={(item) => {
+          return <PostComment data={item} />;
+        }}
+      />
       <Footer handleComment={handleComment} />
     </Wrapper>
   );
+}
+function useComponentSize(): [any, any] {
+  throw new Error("Function not implemented.");
 }

@@ -25,7 +25,7 @@ const ChosenImage = styled.Image``;
 
 const ContentInput = styled.TextInput`
   padding: 26px;
-  font-size: 20px;
+  font-size: 16px;
   width: 100%;
 `;
 
@@ -39,7 +39,7 @@ const UploadButton = styled.TouchableOpacity`
 `;
 
 const WText = styled.Text`
-  font-size: 22px;
+  font-size: 16px;
   font-weight: 600;
   color: white;
 `;

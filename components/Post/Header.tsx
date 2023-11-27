@@ -3,22 +3,48 @@ import styled from 'styled-components/native';
 
 const Wrapper = styled.View`
     display: flex;
-    height: 45px;
+    height: 70px;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 15px;
+    position: relative;
+    gap: 10px;
+`
+const Info = styled.View`
+  margin-top: 4px;
+  gap: 4px;
 `
 const Username = styled.Text`
-    color: #686868;
-    font-size: 25px;
+    font-size: 16px;
+    font-weight: 600;
+`
+
+const ProfileImage = styled.Image`
+  width: 35px;
+  height: 35px;
+  border-radius: 40px;
+  margin-left: 10px;
+`
+
+const Datetime = styled.Text`
+  font-size: 14px;
+  color: #8f8f8f;
 `
 
 type PostHeaderProps = {
-    image: any; // 타입 모르겠음
-    username: string
+    image: string;
+    username: string,
+    writedAt: string,
 }
-export default function PostHeader({ image, username }:PostHeaderProps) {
+export default function PostHeader({ image, username, writedAt }:PostHeaderProps) {
   return (
     <Wrapper>
-        {/* image */}
+        <ProfileImage source={{ uri: image }} />
+        <Info>
         <Username>{username}</Username>
+        <Datetime>{writedAt}</Datetime>
+        </Info>
+        
     </Wrapper>
   )
 }

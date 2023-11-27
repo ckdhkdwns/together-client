@@ -1,9 +1,9 @@
 import EditProfile from "screens/main/user/EditProfile";
 import UserHeader from "components/PageHeader/UserHeader";
 import UserProfile from "screens/share/UserProfile";
-import WritePost from "screens/write/SelectPhoto";
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import RelationList from "screens/main/user/RelationList";
 
 const User = createNativeStackNavigator<UserStackParamList>();
 
@@ -24,9 +24,9 @@ export default function UserStack() {
         component={EditProfile}
       />
       <User.Screen
-        // options={{ header: () => <UserHeader /> }}
-        name="Write"
-        component={WritePost}
+        // options={{ header: () => <UserHeader  /> }}
+        name="Follows"
+        component={RelationList}
       />
     </User.Navigator>
   );

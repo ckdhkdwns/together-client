@@ -31,10 +31,10 @@ const ProfileImage = styled.Image`
 `;
 
 const ChangeImageButton = styled.TouchableOpacity`
-  margin: 10px;
+  margin: 15px auto 20px;
 `;
 const CIText = styled.Text`
-  font-size: 25px;
+  font-size: 21px;
   color: #ff5858;
   font-weight: 600;
 `;

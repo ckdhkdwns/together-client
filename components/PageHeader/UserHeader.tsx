@@ -32,8 +32,8 @@ const PrevButton = styled.TouchableOpacity`
 `;
 
 const WriteButton = styled.TouchableOpacity`
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   display: flex;
   background: #ff5858;
 
@@ -74,7 +74,7 @@ export default function UserHeader({}) {
 
         {routeName == "Profile" && (
           <WriteButton onPress={() => handleWriteButton()}>
-            <Feather size={44} color="#ffffff" name="plus" />
+            <Feather size={34} color="#ffffff" name="plus" />
           </WriteButton>
         )}
       </Header>

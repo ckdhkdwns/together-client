@@ -39,15 +39,18 @@ const InfoWrapper = styled.View`
 const InfoItems = styled.View`
   display: flex;
   flex-direction: row;
-  gap: 30px;
+  gap: 1px;
   justify-content: center;
+  background: #efefef;
 `;
 
 const Email = styled.Text`
+  margin-left: 15px;
   font-size: 20px;
 `;
 
 const Footer = styled.View`
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -76,23 +79,26 @@ const ButtonsWrapper = styled.View`
 `;
 const EditProfileButton = styled.TouchableOpacity`
   background: #ff5858;
-  border-radius: 10px;
+  border-radius: 20px;
+  padding: 0 5px;
 `;
 const EPText = styled.Text`
   color: #ffffff;
+  font-weight: 600;
   margin: 10px;
 `;
 
 const ShowMarkedButton = styled.TouchableOpacity``;
 
 export default function UserProfile({ navigation }) {
-  const [userPageState, setUserPageState] = useRecoilState(userPageStateAtom);
   const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
 
 
   const handleEditButton = () =>{
-    navigation.navigate("edit")
-    setUserPageState('edit');
+    navigation.navigate("Edit")
+  }
+  const handleFollowsButton = () => {
+    navigation.navigate("Follows")
   }
 
   return (
@@ -103,8 +109,8 @@ export default function UserProfile({ navigation }) {
           <Email>{userInfo.email}</Email>
           <InfoItems>
             <InfoItem title="게시물" value={userInfo.postCount} />
-            <InfoItem title="팔로워" value={userInfo.followerCount} />
-            <InfoItem title="팔로잉" value={userInfo.followingCount} />
+            <InfoItem onPress={handleFollowsButton} title="팔로워" value={userInfo.followerCount} />
+            <InfoItem onPress={handleFollowsButton}title="팔로잉" value={userInfo.followingCount} />
           </InfoItems>
         </InfoWrapper>
       </Information>

@@ -7,34 +7,43 @@ import TitleText from "components/TitleText";
 const Wrapper = styled.View`
   display: flex;
   flex-direction: column;
-  background: #ffffff;
+  background: #f1f1f1;
   height: 100%;
+  align-items: center;
+  justify-content: center;
 `;
 
 const LoginBox = styled.View`
-  background: #f8f8f8;
-  border-radius: 50px;
+  background: #fcfcfc;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
-  margin: 206px auto 41px;
-  padding-top: 44px;
+  margin-bottom: 19px;
+  padding-top: 34px;
   width: 325px;
-  height: 336px;
+  padding-bottom: 35px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 `;
+
+const Inputs = styled.View`
+  margin-top: 40px;
+`
 const Input = styled.TextInput`
-  background: #ffffff;
+  background: #efefef;
   border: 1px solid #a0a0a0;
-  height: 44px;
+  height: 45px;
   width: 267px;
-  margin: 22px auto 0px;
+  border-radius: 10px;
+  padding-left: 10px;
+  margin: 9px auto 0px;
+  border: none;
 `;
 
 const Button = styled.TouchableOpacity`
   background: #ff5858;
-  border-radius: 50px;
-  height: 46px;
-  width: 182px;
+  border-radius: 10px;  
+  height: 45px;;
+  width: 267px;
   margin: 0 auto;
 `;
 
@@ -43,19 +52,23 @@ const LoginButton = styled(Button)`
 `;
 
 const SignupButton = styled.TouchableOpacity`
-  background: #ff5858;
-  border-radius: 50px;
-  height: 46px;
-  width: 282px;
-  margin: 0 auto;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  width: 300px;
+  flex-direction: row-reverse;
 `;
 
-const ButtonText = styled.Text`
+const LButtonText = styled.Text`
   color: #ffffff;
-  font-size: 18px;
+  font-size: 17pt;
   margin: auto auto;
+  font-weight: 600;
 `;
+
+const RButtonText = styled.Text`
+  font-size: 17pt;
+  color: #ff5858;
+  font-weight: 600;
+  text-decoration-line: underline;
+`
 
 type loginProps = NativeStackScreenProps<StartStackParamList, "Login">;
 
@@ -73,14 +86,18 @@ export default function Login({ navigation }: loginProps) {
     <Wrapper>
       <LoginBox>
         <TitleText color="#000000" fontSize={44} />
-        <Input placeholder="이메일 주소"></Input>
-        <Input placeholder="비밀번호"></Input>
+        <Inputs>
+          <Input placeholder="이메일 주소"></Input>
+          <Input placeholder="비밀번호"></Input>
+        </Inputs>
+
         <LoginButton onPress={handleLogin}>
-          <ButtonText>로그인</ButtonText>
+          <LButtonText>로그인</LButtonText>
         </LoginButton>
+        
       </LoginBox>
       <SignupButton onPress={onPressSignup}>
-        <ButtonText>계정이 없으신가요? 회원가입</ButtonText>
+        <RButtonText>계정이 없으신가요? 회원가입</RButtonText>
       </SignupButton>
     </Wrapper>
   );

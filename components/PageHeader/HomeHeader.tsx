@@ -28,8 +28,8 @@ const PrevButton = styled.TouchableOpacity`
   left: 15px;
 `;
 const SearchButton = styled.TouchableOpacity`
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   display: flex;
   background: #ff5858;
   position: absolute;
@@ -68,7 +68,7 @@ export default function HomeHeader() {
 
         {routeName == "Posts" && (
           <SearchButton onPress={() => handleSearchButton()}>
-            <Feather size={32} color="#ffffff" name="search" />
+            <Feather size={30} color="#ffffff" name="search" />
           </SearchButton>
         )}
       </Header>

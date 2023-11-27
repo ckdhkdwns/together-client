@@ -23,4 +23,5 @@ type UserStackParamList = {
   Profile: undefined;
   Edit: undefined;
   Write: undefined;
+  Follows : undefined
 }

@@ -5,6 +5,9 @@ import { GestureResponderEvent } from "react-native";
 
 const Wrapper = styled.TouchableOpacity`
   height: 30px;
+  margin-top: 3px;
+  width: 30px;
+  margin-right: 15px;
 `;
 
 type MarkButtonProps = {
@@ -12,12 +15,12 @@ type MarkButtonProps = {
   handleMark: Function;
 };
 export default function MarkButton({ isMarked, handleMark }: MarkButtonProps) {
-  return (
+  return ( 
     <Wrapper onPress={() => handleMark()}>
       {isMarked ? (
-        <FontAwesome name="star" size={24} color="#FFD600" />
+        <FontAwesome name="star" size={26} color="#FFD600" />
       ) : (
-        <FontAwesome name="star-o" size={24} color="black" />
+        <FontAwesome name="star-o" size={26} color="black" />
       )}
     </Wrapper>
   );

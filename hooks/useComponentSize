@@ -1,0 +1,30 @@
+import { useState, useEffect, useRef } from 'react';
+import { View } from 'react-native';
+
+interface ComponentSize {
+  width: number;
+  height: number;
+};
+
+function useComponentSize(): [React.RefObject<View>, ComponentSize] {
+  const [size, setSize] = useState<ComponentSize>({ width: 0, height: 0 });
+  const componentRef = useRef<View>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      componentRef.current?.measure((x, y, width, height, pageX, pageY) => {
+        setSize({ width, height });
+      })
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return [componentRef, size];
+}
+
+export default useComponentSize;

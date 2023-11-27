@@ -6,7 +6,7 @@ const Wrapper = styled.View`
   display: flex;
   flex-direction: row;
   width: 100%;
-  padding: 14px 19px;
+  padding: 14px 25px;
   border: 0px solid #f8f8f8;
   border-bottom-width: 2px;
   gap: 30px;
@@ -14,12 +14,13 @@ const Wrapper = styled.View`
 `;
 
 const Title = styled.Text`
-  font-size: 20px;
+  font-size: 16px;
   margin-top: 1px;
+  font-weight: 600;
 `;
 
 const TInput = styled.TextInput`
-  font-size: 20px;
+  font-size: 16px;
 `;
 
 const ConfirmButton = styled.TouchableOpacity`
@@ -45,7 +46,7 @@ export default function Form({ _type, value }: FormProps) {
       <Title>{_type}</Title>
       <TInput onChange={onInputChange} value={inputValue} />
       <ConfirmButton>
-        <Feather name="check" size={34} color="#ff5858" />
+        <Feather name="check" size={30} color="#ff5858" />
       </ConfirmButton>
     </Wrapper>
   );

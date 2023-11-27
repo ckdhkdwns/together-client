@@ -8,7 +8,7 @@ export const userPageStateAtom = atom({
 export const userInfoAtom = atom({
   key: "userInfo",
   default: {
-    imageUrl: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzA5MTVfMjA0%2FMDAxNjk0NzA0MjM4MjQz.vZdGvpZNSyvMUdwq5_lTBeiQDgn39YAuo-c3SiAFKPQg.18CqETOOi2-YGXFkv6vk_LQIJFY6Bdh85567yYQsiVkg.JPEG.hohoo2023%2FScreenshot_2023-09-15_at_00.10.11.JPG&type=sc960_832',
+    imageUrl: 'https://i.namu.wiki/i/BUfLDpFP8k1uLdcS8f0ZRiJ0hy3ZNMe0pra8ycRG0g1djLKpOptj3rCVl1aMpR2_7H6cjlfb0ZTlD-pHlE9BONpjTexq6kku73pu8THuVGdbJQGitZ6fUods3SCnOau3eUd9k_ZSbdEHl90Zoh530w.webp',
     email: "Circle@changwon.ac.kr",
     postCount: 3,
     followerCount: 56,

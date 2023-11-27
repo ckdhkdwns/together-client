@@ -1,22 +1,23 @@
 import React from "react";
 import styled from "styled-components/native";
 
-const Wrapper = styled.View`
+const Wrapper = styled.TouchableOpacity`
   display: flex;
   flex-direction: column;
-  padding: 18px;
+  padding: 18px 6px;
+  background: #ffffff;
 `;
 
 const Username = styled.Text`
-    font-size: 25px;
-    color: #686868;
+    font-size: 16px;
+    color: #010101;
 `
 
-type UserLinkProps = {
-  name: string;
-};
-export default function UserLink({ name }: UserLinkProps) {
-  return <Wrapper>
-    <Username>{name}</Username>
+
+export default function UserLink({ user }) {
+  return <Wrapper
+  activeOpacity={1}
+  >
+    <Username>{user.item}</Username>
   </Wrapper>;
 }
