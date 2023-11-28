@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import Intro from "./intro";
-import Login from "./login";
-import SignUp from "./signup";
+import Intro from "./Intro";
+import Login from "./Login";
+import SignUp from "./Signup";
 import MainTab from "screens/main/_navigation";
 import SettingHeader from "components/PageHeader/SettingHeader";
 import SelectPhoto from "screens/write/SelectPhoto";

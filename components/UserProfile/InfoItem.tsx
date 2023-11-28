@@ -4,15 +4,15 @@ import styled from "styled-components/native";
 const Wrapper = styled.TouchableOpacity`
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
   width: 90px;
   background: #ffffff;
 `;
 const Title = styled.Text`
-  font-size: 18px;
+  font-size: 16px;
 `;
 const Value = styled.Text`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
 `;
 

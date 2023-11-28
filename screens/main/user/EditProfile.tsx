@@ -4,10 +4,16 @@ import Modal from "react-native-modal";
 import { useRecoilState } from "recoil";
 import { userInfoAtom, userPageStateAtom } from "atoms";
 import Form from "../../../components/EditProfile/Form";
+import { Feather } from "@expo/vector-icons";
+import * as FileSystem from 'expo-file-system';
+
 
 import * as ImagePicker from "expo-image-picker";
 import ChangeImageModal from "../../../components/EditProfile/ChangeImageModal";
-import UserHeader from "components/PageHeader/UserHeader";
+import ImgToBase64 from 'react-native-image-base64';
+import RNFS from 'react-native-fs';
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Wrapper = styled.View`
   display: flex;
@@ -38,12 +44,24 @@ const CIText = styled.Text`
   color: #ff5858;
   font-weight: 600;
 `;
-export default function EditProfile() {
+
+const ConfirmButton = styled.TouchableOpacity`
+  margin-left: 90%;
+  width: 50px;
+  height: 50px;
+`;
+
+export default function EditProfile({ navigation }) {
   const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
+  const [imageUrl, setImageUrl] = useState(userInfo.profileImage);
 
-  const [imageUrl, setImageUrl] = useState(userInfo.imageUrl);
+  const [form, setForm] = useState({
+    nickname: userInfo.nickname,
+    introduce: userInfo.introduce,
+    profileImgUrl: userInfo.profileImage
+  })
 
   const pickImage = async () => {
     if (!status?.granted) {
@@ -60,11 +78,11 @@ export default function EditProfile() {
     });
     if (!!result) {
       const [{ uri }] = result.assets;
-      setUserInfo({
-        ...userInfo,
-        imageUrl: uri,
-      });
       setImageUrl(uri);
+
+      // 이미지를 base64형태로 인코딩
+      // const base64 = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });
+      // console.log(base64.length)
     }
   };
 
@@ -80,6 +98,45 @@ export default function EditProfile() {
     setImageUrl(null);
     setIsModalOpen(false);
   };
+
+  const handleEditProfile = async () => {
+    const token = await AsyncStorage.getItem('token')
+    console.log(token);
+    try {
+      const data = {
+        ...form,
+        ['profileImgUrl']: 'dummyurl'
+      }
+      console.log(data);
+      const res = await axios.patch(`${process.env.SERVER_IP}/api/user/info`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      if(res.data.success) {
+        setUserInfo({
+          ...userInfo,
+          ['nickname']: data.nickname,
+          ['introduce']: data.introduce,
+          ['profileImage']: 'dummy'
+        })
+        navigation.navigate("Profile")
+      }
+    } catch(error) {
+      console.log(error);
+    }
+  }
+  // useEffect(() => {
+  //   console.log(userInfo)
+  // }, [userInfo])
+
+  const handleInputChange = (text, inputType) => {
+    setForm({
+      ...form,
+      [inputType]: text,
+    });
+  };
+
   return (
     <Wrapper>
       <Modal isVisible={isModalOpen}>
@@ -99,9 +156,12 @@ export default function EditProfile() {
           <CIText>사진 수정</CIText>
         </ChangeImageButton>
       </ImageWrapper>
-
-      <Form _type="닉네임" value={userInfo.name} />
-      <Form _type="소개글" value={userInfo.description} />
+      
+      <Form inputType="닉네임" onChangeText={(text) => handleInputChange(text, "nickname")} value={form.nickname} />
+      <Form inputType="소개글" onChangeText={(text) => handleInputChange(text, "introduce")} value={form.introduce} />
+      <ConfirmButton onPress={handleEditProfile}>
+        <Feather name="check" size={30} color="#ff5858" />
+      </ConfirmButton>
     </Wrapper>
   );
 }

@@ -21,7 +21,7 @@ const Wrapper = styled.View`
 const CommentInput = styled.TextInput`
   height: 40px;
   background: #f3f3f3;
-  font-size: 17pt;
+  font-size: 16px;
   padding-left: 15px;
   width: 100%;
   border-radius: 20px;

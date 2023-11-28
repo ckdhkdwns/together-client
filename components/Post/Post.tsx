@@ -16,10 +16,15 @@ const Wrapper = styled.View`
 `;
 
 const Sqaure = styled.View``;
-const Divider = styled.View`
-  border: 0px solid #efefef;
-  border-top-width: 1px;
-  margin: auto;
+const Divider = styled.Text`
+  /* border: 0px solid #efefef;
+  border-top-width: 1px; */
+  font-size: 30px;
+  margin: -30px auto 0px;
+  letter-spacing: 3.5px;
+  font-weight: 600;
+  padding-left: 10px;
+  color: #afafaf;
 `;
 const Content = styled.Text`
   margin: 5px 0 15px;
@@ -68,8 +73,9 @@ export default function Post({ post }) {
         handleLike={handleLike}
         handleMark={handleComment}
       />
-      {/* <Divider style={{width: squareSize}}></Divider> */}
+      
       <Content>{post.item.content}</Content>
+      {/* <Divider style={{width: squareSize}}>.....</Divider> */}
       <Comments
         data={post.item.comments}
         renderItem={(item) => {

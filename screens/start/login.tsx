@@ -1,8 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import TitleText from "components/TitleText";
+import axios from "axios";
+import InputField from "components/InputField";
 
 const Wrapper = styled.View`
   display: flex;
@@ -15,7 +18,7 @@ const Wrapper = styled.View`
 
 const LoginBox = styled.View`
   background: #fcfcfc;
-  border-radius: 20px;
+  border-radius: 30px;
   display: flex;
   flex-direction: column;
   margin-bottom: 19px;
@@ -26,29 +29,19 @@ const LoginBox = styled.View`
 `;
 
 const Inputs = styled.View`
-  margin-top: 40px;
-`
-const Input = styled.TextInput`
-  background: #efefef;
-  border: 1px solid #a0a0a0;
-  height: 45px;
-  width: 267px;
-  border-radius: 10px;
-  padding-left: 10px;
-  margin: 9px auto 0px;
-  border: none;
+  margin-top: 20px;
 `;
 
 const Button = styled.TouchableOpacity`
   background: #ff5858;
-  border-radius: 10px;  
-  height: 45px;;
+  border-radius: 10px;
+  height: 45px;
   width: 267px;
   margin: 0 auto;
 `;
 
 const LoginButton = styled(Button)`
-  margin-top: 29px;
+  margin-top: 40px;
 `;
 
 const SignupButton = styled.TouchableOpacity`
@@ -58,43 +51,141 @@ const SignupButton = styled.TouchableOpacity`
 
 const LButtonText = styled.Text`
   color: #ffffff;
-  font-size: 17pt;
+  font-size: 16px;
   margin: auto auto;
   font-weight: 600;
 `;
 
 const RButtonText = styled.Text`
-  font-size: 17pt;
+  font-size: 16px;
   color: #ff5858;
   font-weight: 600;
   text-decoration-line: underline;
-`
+`;
 
 type loginProps = NativeStackScreenProps<StartStackParamList, "Login">;
 
 export default function Login({ navigation }: loginProps) {
+  const [errorMessages, setErrorMessages] = useState({
+    email: "",
+    password: "",
+  });
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleLogin = async () => {
+    // 이메일과 비밀번호의 유효성 검증
+    const copyedErrors = JSON.parse(JSON.stringify(errorMessages));
+    if (form.email == "") {
+      copyedErrors["email"] = "이메일을 입력해주세요.";
+      setErrorMessages(copyedErrors);
+      return;
+    } else {
+      copyedErrors["email"] = "";
+    }
+
+    if (form.password == "") {
+      copyedErrors["password"] = "비밀번호를 입력해주세요.";
+      setErrorMessages(copyedErrors);
+      return;
+    } else {
+      copyedErrors["password"] = "";
+    }
+
+    try {
+      const res = await axios.get(`${process.env.SERVER_IP}/api/auth/sign-in`, {
+        params: form,
+      });
+      // 에러 핸들링
+      if (!res.data.success && res.data.error.code == 1001) {
+        setErrorMessages({
+          ...copyedErrors,
+          ["email"]: res.data.error.message,
+        });
+        return;
+      }
+      const token = res.data.result.token;
+
+      AsyncStorage.setItem("token", token);
+      navigation.navigate("Main");
+
+      setTimeout(() => {
+        setForm({
+          ["email"]: "",
+          ["password"]: "",
+        });
+        setErrorMessages({
+          ['email']: "",
+          ['password']: "",
+        })
+      }, 1000);
+    } catch (error) {
+      console.error(error.response.data);
+    }
+  };
+
   const onPressSignup = () => {
     navigation.navigate("Signup");
   };
-  const handleLogin = () => {
-    navigation.navigate("Main");
+
+  const handleInputChange = (text, inputType) => {
+    setForm({
+      ...form,
+      [inputType]: text,
+    });
   };
-  // useEffect(() => {
-  //   navigation.setOptions({ gestureEnabled: false })
-  // }, [])
+
+  const autoLogin = async () => {
+    const token = await AsyncStorage.getItem("token");
+    if (token) {
+      try {
+        // 토큰이 유효하지 안 유효한지
+        const res = await axios.get(`${process.env.SERVER_IP}/api/user/info`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        navigation.navigate("Main");
+      } catch (error) {
+        console.log("자동 로그인 실패");
+      }
+    }
+  };
+
+  useEffect(() => {
+    navigation.setOptions({ gestureEnabled: false });
+    autoLogin();
+  }, []);
+
   return (
     <Wrapper>
       <LoginBox>
         <TitleText color="#000000" fontSize={44} />
         <Inputs>
-          <Input placeholder="이메일 주소"></Input>
-          <Input placeholder="비밀번호"></Input>
+          <InputField
+            inputType="이메일"
+            error={errorMessages.email}
+            autoFocus
+            value={form.email}
+            placeholder="you@example.com"
+            onChangeText={(text) => handleInputChange(text, "email")}
+          />
+          <InputField
+            inputType="비밀번호"
+            error={errorMessages.password}
+            autoFocus
+            secureTextEntry
+            value={form.password}
+            placeholder="비밀번호"
+            onChangeText={(text) => handleInputChange(text, "password")}
+          />
         </Inputs>
-
         <LoginButton onPress={handleLogin}>
           <LButtonText>로그인</LButtonText>
         </LoginButton>
-        
       </LoginBox>
       <SignupButton onPress={onPressSignup}>
         <RButtonText>계정이 없으신가요? 회원가입</RButtonText>

@@ -1,3 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { StackNavigationState, useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
 import SettingHeader from 'components/PageHeader/SettingHeader'
 import React from 'react'
 import styled from 'styled-components/native'
@@ -10,25 +13,25 @@ const Wrapper = styled.View`
 const LogoutButton = styled.TouchableOpacity`
   height: 60px;
   justify-content: center;
-  padding-left: 15px;
+  padding-left: 20px;
   border: 0px solid #f8f8f8;
   border-bottom-width: 2px;
 `
 const LogoutText = styled.Text`
-  font-size: 22px;
+  font-size: 21px;
 `
 
 const Description = styled.View`
-  height: 60px;
+  height: 80px;
   justify-content: center;
-  padding-left: 15px;
+  padding-left: 20px;
   border: 0px solid #f8f8f8;
   border-bottom-width: 2px;
-  gap: 2px;
+  gap: 8px;
 `
 
 const Developed = styled.Text`
-  font-size: 20px;
+  font-size: 21px;
 `
 const Developers = styled.Text`
   font-size: 15px;
@@ -37,12 +40,10 @@ const Developers = styled.Text`
 `
 
 export default function Setting() {
-  const handleLogout = () => {
-    try{
-
-    } catch {
-      
-    }
+  const startStackNavigation = useNavigation<StackNavigationProp<StartStackParamList>>();
+  const handleLogout = async () => {
+    await AsyncStorage.clear();
+    startStackNavigation.navigate("Login");
   }
   return (
     <Wrapper>

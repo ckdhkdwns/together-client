@@ -79,12 +79,6 @@ export const dummyPosts = [
                 parentComment: 1,
                 commentType: 1
             },
-            {
-                username: "갈리오",
-                content: "왜그러냐",
-                parentComment: 1,
-                commentType: 1
-            }
         ]    
     }
 ]

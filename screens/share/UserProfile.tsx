@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { Image } from "react-native";
 import InfoItem from "../../components/UserProfile/InfoItem";
@@ -6,6 +6,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import { userInfoAtom, userPageStateAtom } from "atoms";
 import { useRecoilState } from "recoil";
 import UserHeader from "components/PageHeader/UserHeader";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const Wrapper = styled.View`
   display: flex;
@@ -54,7 +56,9 @@ const Footer = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
+  align-items: center;
+  height: 70px;
+  padding-bottom: 10px;
 `;
 const NameWrapper = styled.View`
   display: flex;
@@ -90,9 +94,23 @@ const EPText = styled.Text`
 
 const ShowMarkedButton = styled.TouchableOpacity``;
 
-export default function UserProfile({ navigation }) {
-  const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
 
+type UserProfile = {
+  articleCount: number;
+  articles: {
+    id: number,
+    image: string
+  },
+  email: string
+  followerCount: number
+  followingCount: number
+  introduce: string
+  nickname: string
+  profileImage: string
+} 
+
+export default function UserProfile({ navigation }) {
+  const [userInfo, setUserInfo] = useRecoilState<UserProfile>(userInfoAtom);
 
   const handleEditButton = () =>{
     navigation.navigate("Edit")
@@ -101,23 +119,41 @@ export default function UserProfile({ navigation }) {
     navigation.navigate("Follows")
   }
 
+  const initProfile = async () => {
+    const token = await AsyncStorage.getItem('token');
+    try {
+      const res = await axios.get(`${process.env.SERVER_IP}/api/user/info`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setUserInfo(res.data.result);
+    } catch(error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    initProfile();
+  }, [])
+
   return (
     <Wrapper>
       <Information>
-        <ProfileImage source={{ uri: userInfo.imageUrl }} />
+        <ProfileImage source={{ uri: userInfo?.profileImage }} />
         <InfoWrapper>
-          <Email>{userInfo.email}</Email>
+          <Email>{userInfo?.email}</Email>
           <InfoItems>
-            <InfoItem title="게시물" value={userInfo.postCount} />
-            <InfoItem onPress={handleFollowsButton} title="팔로워" value={userInfo.followerCount} />
-            <InfoItem onPress={handleFollowsButton}title="팔로잉" value={userInfo.followingCount} />
+            <InfoItem title="게시물" value={userInfo?.articleCount} />
+            <InfoItem onPress={handleFollowsButton} title="팔로워" value={userInfo?.followerCount} />
+            <InfoItem onPress={handleFollowsButton}title="팔로잉" value={userInfo?.followingCount} />
           </InfoItems>
         </InfoWrapper>
       </Information>
       <Footer>
         <NameWrapper>
-          <Username>{userInfo.name}</Username>
-          <Description>{userInfo.description}</Description>
+          <Username>{userInfo?.nickname}</Username>
+          <Description>{userInfo?.introduce}</Description>
         </NameWrapper>
         <ButtonsWrapper>
           <EditProfileButton onPress={handleEditButton}>
