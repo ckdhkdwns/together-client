@@ -8,7 +8,7 @@ export const userPageStateAtom = atom({
 export const userInfoAtom = atom<UserProfile>({
   key: "userInfo",
   default:{
-    articleCount: 0,
+    postCount: 0,
     articles: {
       id: 0,
       image: ""
@@ -18,6 +18,6 @@ export const userInfoAtom = atom<UserProfile>({
     followingCount: 0,
     introduce: "",
     nickname: "",
-    profileImage: ""
+    profileImgUrl: ""
   }
 });

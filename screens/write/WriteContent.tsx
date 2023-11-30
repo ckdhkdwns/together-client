@@ -4,6 +4,12 @@ import { Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Feather } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import FormData from "form-data";
+import * as MediaLibrary from 'expo-media-library';
+
+
 
 const Wrapper = styled.SafeAreaView`
   display: flex;
@@ -48,20 +54,72 @@ export default function WriteContent({ route }) {
   const [content, setContent] = useState("");
   const windowWidth = Dimensions.get("window").width;
   const mainNavigation = useNavigation<StackNavigationProp<TabParamList>>();
-  const startNavigation = useNavigation<StackNavigationProp<StartStackParamList>>();
-  const onChangeContent = (e) => {
-    setContent(e.target.value);
+  const startNavigation =
+    useNavigation<StackNavigationProp<StartStackParamList>>();
+
+  const onChangeContent = (text) => {
+    setContent(text);
   };
 
   const handlePrevButton = () => {
     startNavigation.navigate("SelectPhoto");
   };
-  const handleUpload = () => {
+
+  const handleUpload = async () => {
+    const token = await AsyncStorage.getItem("token");
+    console.log(token);
     try {
-      // fetch
-      mainNavigation.navigate("Home");
-    } catch {}
+      // ph to file
+      let slicedUri = route.params.imageUri.slice(5);
+      let returnedAssetInfo = await MediaLibrary.getAssetInfoAsync(slicedUri)
+      
+      const formData = new FormData();
+      formData.append("file", {
+        name: "image",
+        uri: returnedAssetInfo.localUri,
+        type: "image/png",
+      });
+
+      const resImage = await axios.post(
+        `${process.env.SERVER_IP}/api/posts/image`,
+        formData,
+        {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      const serverImageUrl = resImage.data.result.imgUrl;
+      const data = {
+        content: content,
+        imgUrl: serverImageUrl,
+      };
+      const resContent = await axios.post(
+        `${process.env.SERVER_IP}/api/posts`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(resContent.data);
+      // console.log(resImage.data);
+    } catch(error) {
+      console.error(error);
+    }
+    try {
+
+    } catch (error) {
+      console.error(error);
+    }
+
+    mainNavigation.navigate("Home");
+
   };
+
   return (
     <Wrapper>
       <Main>
@@ -77,7 +135,7 @@ export default function WriteContent({ route }) {
           numberOfLines={10}
           placeholder="문구를 작성하세요"
           value={content}
-          onChange={onChangeContent}
+          onChangeText={onChangeContent}
         />
       </Main>
 

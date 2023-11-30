@@ -30,9 +30,9 @@ const Content = styled.Text`
   margin: 5px 0 15px;
   font-size: 16px;
   padding: 0px 30px;
-  font-weight: 500; 
+  font-weight: 500;
 `;
-const Comments = styled.FlatList`  
+const Comments = styled.FlatList`
   margin: 0 30px;
 `;
 
@@ -73,7 +73,7 @@ export default function Post({ post }) {
         handleLike={handleLike}
         handleMark={handleComment}
       />
-      
+
       <Content>{post.item.content}</Content>
       {/* <Divider style={{width: squareSize}}>.....</Divider> */}
       <Comments

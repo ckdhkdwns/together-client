@@ -7,11 +7,9 @@ import Form from "../../../components/EditProfile/Form";
 import { Feather } from "@expo/vector-icons";
 import * as FileSystem from 'expo-file-system';
 
-
+import FormData from 'form-data';
 import * as ImagePicker from "expo-image-picker";
 import ChangeImageModal from "../../../components/EditProfile/ChangeImageModal";
-import ImgToBase64 from 'react-native-image-base64';
-import RNFS from 'react-native-fs';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -51,16 +49,18 @@ const ConfirmButton = styled.TouchableOpacity`
   height: 50px;
 `;
 
+
 export default function EditProfile({ navigation }) {
-  const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
+  const [userInfo, setUserInfo] = useRecoilState<UserProfile>(userInfoAtom);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
-  const [imageUrl, setImageUrl] = useState(userInfo.profileImage);
+
+  const [imageName, setImageName] = useState("")
+  const [imageUrl, setImageUrl] = useState(userInfo.profileImgUrl);
 
   const [form, setForm] = useState({
     nickname: userInfo.nickname,
     introduce: userInfo.introduce,
-    profileImgUrl: userInfo.profileImage
   })
 
   const pickImage = async () => {
@@ -77,12 +77,9 @@ export default function EditProfile({ navigation }) {
       quality: 1,
     });
     if (!!result) {
-      const [{ uri }] = result.assets;
+      const [{ uri, fileName }] = result.assets;
       setImageUrl(uri);
-
-      // 이미지를 base64형태로 인코딩
-      // const base64 = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });
-      // console.log(base64.length)
+      setImageName(fileName);
     }
   };
 
@@ -101,34 +98,52 @@ export default function EditProfile({ navigation }) {
 
   const handleEditProfile = async () => {
     const token = await AsyncStorage.getItem('token')
+    let copiedInfo:UserProfile = JSON.parse(JSON.stringify(userInfo))
     console.log(token);
-    try {
-      const data = {
-        ...form,
-        ['profileImgUrl']: 'dummyurl'
-      }
-      console.log(data);
-      const res = await axios.patch(`${process.env.SERVER_IP}/api/user/info`, data, {
+    try { // 
+      const res = await axios.patch(`${process.env.SERVER_IP}/api/user/info`, form, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       })
       if(res.data.success) {
-        setUserInfo({
+        copiedInfo = {
           ...userInfo,
-          ['nickname']: data.nickname,
-          ['introduce']: data.introduce,
-          ['profileImage']: 'dummy'
-        })
-        navigation.navigate("Profile")
+          ['nickname']: form.nickname,
+          ['introduce']: form.introduce,
+        }
+        
       }
     } catch(error) {
       console.log(error);
     }
+
+
+    try {
+      const formData = new FormData();
+      formData.append('file', {
+        name: imageName,
+        uri: imageUrl,
+        type: 'image/png'
+      })
+      const res = await axios.post(`${process.env.SERVER_IP}/api/user/info/profile-image`, formData, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      console.log(res.data);
+      setUserInfo({
+        ...copiedInfo,
+        ['profileImgUrl']: res.data.result.profileImgUrl
+      })
+      navigation.navigate("Profile")
+    } catch(error) {  
+      console.log(error.response.data);
+    }
+
+
   }
-  // useEffect(() => {
-  //   console.log(userInfo)
-  // }, [userInfo])
 
   const handleInputChange = (text, inputType) => {
     setForm({

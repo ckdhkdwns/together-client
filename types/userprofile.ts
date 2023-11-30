@@ -1,5 +1,5 @@
 type UserProfile = {
-    articleCount: number;
+    postCount: number;
     articles: {
       id: number,
       image: string
@@ -9,5 +9,5 @@ type UserProfile = {
     followingCount: number
     introduce: string
     nickname: string
-    profileImage: string
+    profileImgUrl: string
   } 

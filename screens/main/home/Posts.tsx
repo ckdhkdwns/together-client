@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import Post from "components/Post/Post";
 import { dummyPosts } from "utils/dummyPosts";
-import { FlatList, View, Text } from "react-native";
 
 const Wrapper = styled.View`
   width: 100%;
@@ -17,7 +16,6 @@ const PostList = styled.FlatList`
 export default function Posts() {
   const [posts, setPosts] = useState(dummyPosts);
   const [isFolded, setIsFolded] = useState(false);
-
   return (
     <Wrapper>
       <PostList

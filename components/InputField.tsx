@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { TextInputProps } from "react-native";
 import styled from "styled-components/native";
 
@@ -18,7 +19,7 @@ const InputHeader = styled.View`
   align-items: center;
   justify-content: space-between;
   gap: 5px;
-  height: 20px;
+  height: 15px;
 `;
 const InputTitle = styled.Text`
   font-size: 14px;
@@ -40,6 +41,7 @@ export default function InputField({
   error,
   ...props
 }: InputFieldProps) {
+  
   return (
     <Wrapper>
       <InputHeader>

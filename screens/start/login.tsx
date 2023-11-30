@@ -6,6 +6,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import TitleText from "components/TitleText";
 import axios from "axios";
 import InputField from "components/InputField";
+import { useRecoilState } from "recoil";
+import { userInfoAtom } from "atoms";
 
 const Wrapper = styled.View`
   display: flex;
@@ -66,6 +68,7 @@ const RButtonText = styled.Text`
 type loginProps = NativeStackScreenProps<StartStackParamList, "Login">;
 
 export default function Login({ navigation }: loginProps) {
+  const [userInfo, setUserInfo] = useRecoilState<UserProfile>(userInfoAtom);
   const [errorMessages, setErrorMessages] = useState({
     email: "",
     password: "",
@@ -74,6 +77,19 @@ export default function Login({ navigation }: loginProps) {
     email: "",
     password: "",
   });
+
+  const initProfile = async (token) => {
+    try {
+      const res = await axios.get(`${process.env.SERVER_IP}/api/user/info`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setUserInfo(res.data.result);
+    } catch(error) {
+      console.error(error);
+    }
+  }
 
   const handleLogin = async () => {
     // 이메일과 비밀번호의 유효성 검증
@@ -107,8 +123,8 @@ export default function Login({ navigation }: loginProps) {
         return;
       }
       const token = res.data.result.token;
-
       AsyncStorage.setItem("token", token);
+      initProfile(token)
       navigation.navigate("Main");
 
       setTimeout(() => {
@@ -147,7 +163,7 @@ export default function Login({ navigation }: loginProps) {
             Authorization: `Bearer ${token}`,
           },
         });
-
+        initProfile(token)
         navigation.navigate("Main");
       } catch (error) {
         console.log("자동 로그인 실패");

@@ -7,7 +7,7 @@ export default function TabBackground() {
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
       style={{
-        height: 100,
+        height: 80,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         paddingTop: 50,

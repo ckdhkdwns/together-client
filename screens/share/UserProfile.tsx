@@ -5,7 +5,7 @@ import InfoItem from "../../components/UserProfile/InfoItem";
 import { FontAwesome } from "@expo/vector-icons";
 import { userInfoAtom, userPageStateAtom } from "atoms";
 import { useRecoilState } from "recoil";
-import UserHeader from "components/PageHeader/UserHeader";
+import { AntDesign } from '@expo/vector-icons'; 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
@@ -82,7 +82,7 @@ const ButtonsWrapper = styled.View`
   gap: 10px;
 `;
 const EditProfileButton = styled.TouchableOpacity`
-  background: #ff5858;
+  
   border-radius: 20px;
   padding: 0 5px;
 `;
@@ -92,11 +92,16 @@ const EPText = styled.Text`
   margin: 10px;
 `;
 
+const TW = styled.View`
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+`
 const ShowMarkedButton = styled.TouchableOpacity``;
 
 
 type UserProfile = {
-  articleCount: number;
+  postCount: number;
   articles: {
     id: number,
     image: string
@@ -110,7 +115,7 @@ type UserProfile = {
 } 
 
 export default function UserProfile({ navigation }) {
-  const [userInfo, setUserInfo] = useRecoilState<UserProfile>(userInfoAtom);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
 
   const handleEditButton = () =>{
     navigation.navigate("Edit")
@@ -119,32 +124,25 @@ export default function UserProfile({ navigation }) {
     navigation.navigate("Follows")
   }
 
-  const initProfile = async () => {
-    const token = await AsyncStorage.getItem('token');
-    try {
-      const res = await axios.get(`${process.env.SERVER_IP}/api/user/info`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      setUserInfo(res.data.result);
-    } catch(error) {
-      console.error(error);
-    }
-  }
-
   useEffect(() => {
-    initProfile();
+    console.log(userInfo)
   }, [])
 
   return (
     <Wrapper>
       <Information>
-        <ProfileImage source={{ uri: userInfo?.profileImage }} />
+        <ProfileImage source={{ uri: userInfo.profileImgUrl }} />
         <InfoWrapper>
+          <TW>
           <Email>{userInfo?.email}</Email>
+          <EditProfileButton onPress={handleEditButton}>
+          <AntDesign name="edit" size={20} color="black" />
+          </EditProfileButton>
+          </TW>
+          
+          
           <InfoItems>
-            <InfoItem title="게시물" value={userInfo?.articleCount} />
+            <InfoItem title="게시물" value={userInfo?.postCount} />
             <InfoItem onPress={handleFollowsButton} title="팔로워" value={userInfo?.followerCount} />
             <InfoItem onPress={handleFollowsButton}title="팔로잉" value={userInfo?.followingCount} />
           </InfoItems>
@@ -156,11 +154,9 @@ export default function UserProfile({ navigation }) {
           <Description>{userInfo?.introduce}</Description>
         </NameWrapper>
         <ButtonsWrapper>
-          <EditProfileButton onPress={handleEditButton}>
-            <EPText>프로필 편집</EPText>
-          </EditProfileButton>
+          
           <ShowMarkedButton>
-            <FontAwesome name="star" size={34} color="#FFD600" />
+            <FontAwesome name="star" size={28} color="#f8cd2e" />
           </ShowMarkedButton>
         </ButtonsWrapper>
       </Footer>

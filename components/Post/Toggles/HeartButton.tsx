@@ -33,7 +33,7 @@ export default function HeartButton({
       ) : (
         <MaterialCommunityIcons name="cards-heart-outline" size={24} color="black" />
       )}
-      <LikeCount style={{ color: isLiked ? "#ff5858" : "#000000 " }}>
+      <LikeCount style={{ color: isLiked ? "#ff5858" : "#000000" }}>
         {likeCount}
       </LikeCount>
     </Wrapper>
