@@ -1,18 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components/native';
+import moment from "moment";
 
 const Wrapper = styled.View`
     display: flex;
     height: 70px;
     flex-direction: row;
     align-items: center;
-    padding: 10px 15px;
+    padding: 15px 0px;
     position: relative;
     gap: 10px;
+    margin-top: 5px;
 `
 const Info = styled.View`
-  margin-top: 4px;
-  gap: 4px;
+  margin-top: 2px;
+  gap: 2px;
 `
 const Username = styled.Text`
     font-size: 16px;
@@ -23,7 +25,7 @@ const ProfileImage = styled.Image`
   width: 35px;
   height: 35px;
   border-radius: 40px;
-  margin-left: 10px;
+  margin-left: 5px;
 `
 
 const Datetime = styled.Text`
@@ -34,15 +36,27 @@ const Datetime = styled.Text`
 type PostHeaderProps = {
     image: string;
     username: string,
-    writedAt: string,
+    writedAt: number[]
 }
 export default function PostHeader({ image, username, writedAt }:PostHeaderProps) {
+  const [formattedDate, setFormattedDate] = useState(
+    moment({
+      year: writedAt[0],
+      month: writedAt[1] - 1,
+      day: writedAt[2],
+      hour: writedAt[3],
+      minute: writedAt[4],
+      second: writedAt[5]
+    })
+  )
+  
+  
   return (
     <Wrapper>
         <ProfileImage source={{ uri: image }} />
         <Info>
         <Username>{username}</Username>
-        <Datetime>{writedAt}</Datetime>
+        <Datetime>{formattedDate.startOf('second').fromNow()}</Datetime>
         </Info>
         
     </Wrapper>

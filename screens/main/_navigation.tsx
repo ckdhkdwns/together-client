@@ -8,10 +8,10 @@ import TabBackground from "components/Tab/TabBackground";
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
-export default function MainTab() {
-  // useEffect(() => {
-  //   navigation.setOptions({ gestureEnabled: false })
-
+export default function MainTab({ navigation }) {
+  useEffect(() => {
+    navigation.setOptions({ gestureEnabled: false });
+  }, []);
   return (
     <Tab.Navigator
       screenOptions={() => ({

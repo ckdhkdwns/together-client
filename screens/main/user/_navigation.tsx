@@ -4,6 +4,7 @@ import UserProfile from "screens/share/UserProfile";
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import RelationList from "screens/main/user/RelationList";
+import Posts from "screens/share/Posts";
 
 const User = createNativeStackNavigator<UserStackParamList>();
 
@@ -16,6 +17,7 @@ export default function UserStack() {
       <User.Screen
         // options={{ header: () => <UserHeader />   }}
         name="Profile"
+        initialParams={{ nickname: null }}
         component={UserProfile}
       />
       <User.Screen
@@ -25,8 +27,13 @@ export default function UserStack() {
       />
       <User.Screen
         // options={{ header: () => <UserHeader  /> }}
-        name="Follows"
+        name="Relations"
         component={RelationList}
+      />
+      <User.Screen
+        // options={{ header: () => <UserHeader  /> }}
+        name="FavoriteList"
+        component={Posts}
       />
     </User.Navigator>
   );

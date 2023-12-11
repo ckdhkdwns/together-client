@@ -8,7 +8,7 @@ const Wrapper = styled.TouchableOpacity`
   flex-direction: row;
   height: 30px;
   gap: 8px;
-  margin-left: 15px;
+  margin-left: 10px;
   align-items: center;
 `;
 

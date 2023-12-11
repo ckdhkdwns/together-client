@@ -10,4 +10,10 @@ type UserProfile = {
     introduce: string
     nickname: string
     profileImgUrl: string
+    posts: [{
+      id: number;
+      imgUrl: string;
+    }],
+    isFollowing ?: boolean;
+    userId ?: number;
   } 

@@ -3,22 +3,21 @@ import styled from "styled-components/native";
 import HeartButton from "./HeartButton";
 import MarkButton from "./MarkButton";
 
-
 const Wrapper = styled.View`
   display: flex;
-  
+
   flex-direction: row;
   justify-content: space-between;
-  gap: 20px; 
+
   height: 50px;
   align-items: center;
-  padding: 15px;
+  padding: 15px 0 10px;
 `;
 
 const Left = styled.View`
   flex-direction: row;
   gap: 20px;
-`
+`;
 type TogglesProps = {
   likeCount: number;
 
@@ -37,17 +36,13 @@ export default function Toggles({
 }: TogglesProps) {
   return (
     <Wrapper>
-      <Left>
       <HeartButton
         isLiked={isLiked}
         likeCount={likeCount}
         handleLike={handleLike}
       />
- 
-      </Left>
-      
+
       <MarkButton isMarked={isMarked} handleMark={handleMark} />
-      
     </Wrapper>
   );
 }

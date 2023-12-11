@@ -18,6 +18,7 @@ export const userInfoAtom = atom<UserProfile>({
     followingCount: 0,
     introduce: "",
     nickname: "",
-    profileImgUrl: ""
+    profileImgUrl: "",
+    isFollowing: false
   }
 });

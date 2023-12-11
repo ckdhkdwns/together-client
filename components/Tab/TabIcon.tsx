@@ -3,7 +3,7 @@ import { Feather } from "@expo/vector-icons";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
 
-const SIZE = 37;
+const SIZE = 30;
 const UNFOCUSED_COLOR = "#ffffff";
 const GradientIcon = ({ name }) => {
   return (

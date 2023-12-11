@@ -7,7 +7,7 @@ const Wrapper = styled.TouchableOpacity`
   height: 30px;
   margin-top: 3px;
   width: 30px;
-  margin-right: 15px;
+  margin-right: 10px;
 `;
 
 type MarkButtonProps = {

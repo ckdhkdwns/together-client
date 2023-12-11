@@ -41,9 +41,14 @@ const Developers = styled.Text`
 
 export default function Setting() {
   const startStackNavigation = useNavigation<StackNavigationProp<StartStackParamList>>();
+  const tabNavigation = useNavigation<StackNavigationProp<TabParamList>>();
+  const homeStackNavigation = useNavigation<StackNavigationProp<HomeStackParamList>>();
   const handleLogout = async () => {
     await AsyncStorage.clear();
-    startStackNavigation.navigate("Login");
+    tabNavigation.navigate("Home");
+    homeStackNavigation.navigate("Posts");
+    startStackNavigation.replace("Login");
+
   }
   return (
     <Wrapper>

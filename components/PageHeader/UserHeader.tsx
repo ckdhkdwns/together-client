@@ -35,7 +35,7 @@ const WriteButton = styled.TouchableOpacity`
   width: 45px;
   height: 45px;
   display: flex;
-  background: #ff5858;
+  /* background: #ff5858; */
 
   border-radius: 50px;
   justify-content: center;
@@ -46,35 +46,33 @@ const WriteButton = styled.TouchableOpacity`
 
 export default function UserHeader({}) {
   const [userPageState, setUserPageState] = useRecoilState(userPageStateAtom); // profile, edit, writePost, viewPost(user's specific post)
-  const [routeName, setRouteName] = useState("Profile");
   const route = useRoute();
   const tabNavigation = useNavigation<StackNavigationProp<UserStackParamList>>();
   const stackNavigation = useNavigation<StackNavigationProp<StartStackParamList>>();
 
   const handlePrevButton = () => {
     tabNavigation.navigate("Profile");
+    
   };
   const handleWriteButton = () => {
     stackNavigation.navigate("SelectPhoto");
   };
 
-  useEffect(() => {
-    setRouteName(route.name);
-  }, []);
+
 
   return (
     <SafeAreaView style={{paddingBottom: -50, backgroundColor: "#ffffff" }} >
       <Header>
-        {routeName == "Edit" && (
+        {route.name == "Edit" && (
           <PrevButton onPress={() => handlePrevButton()}>
             <Feather name="chevron-left" size={40} color="#9f9f9f" />
           </PrevButton>
         )}
         <TitleText color="#000000" fontSize={33} />
 
-        {routeName == "Profile" && (
+        {route.name == "Profile" && (
           <WriteButton onPress={() => handleWriteButton()}>
-            <Feather size={34} color="#ffffff" name="plus" />
+            <Feather size={30} color="#000000" name="plus" />
           </WriteButton>
         )}
       </Header>

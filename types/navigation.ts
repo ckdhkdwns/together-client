@@ -17,11 +17,13 @@ type TabParamList = {
 type HomeStackParamList = {
   Posts: undefined;
   Search: undefined;
+  OtherProfile: { userId: number };
 }
 
 type UserStackParamList = {
-  Profile: undefined;
+  Profile: { nickname?: string };
   Edit: undefined;
   Write: undefined;
-  Follows : undefined
+  Relations : { listMode: string };
+  FavoriteList: { isFavoriteList: boolean }
 }

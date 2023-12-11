@@ -3,17 +3,20 @@ import styled from "styled-components/native";
 
 const Wrapper = styled.TouchableOpacity`
   display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 90px;
+  gap: 5px;
   background: #ffffff;
-`;
+  align-items: center;
+  width: 33%;
+  `;
+  
 const Title = styled.Text`
   font-size: 16px;
+  color: #7f7f7f;
 `;
 const Value = styled.Text`
   font-size: 16px;
   font-weight: 600;
+  margin-left: 2px;
 `;
 
 type InfoItem = {
@@ -26,9 +29,15 @@ type InfoItemProps = {
   title: string;
   value: number;
 };
+
 export default function InfoItem({ onPress, title, value }: InfoItemProps) {
   return (
-    <Wrapper activeOpacity={1} onPress={() => onPress()}>
+    <Wrapper style={title=="팔로워" && {
+      borderWidth: 1,
+      borderBottomWidth: 0,
+      borderTopWidth: 0,
+      borderColor: "#efefef"
+    }}activeOpacity={1} onPress={() => onPress()}>
       <Title>{title}</Title>
       <Value>{value}</Value>
     </Wrapper>

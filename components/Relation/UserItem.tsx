@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
+import RelationButton from "./RelationButton";
 
 const Wrapper = styled.View`
   display: flex;
@@ -31,51 +32,17 @@ const Description = styled.Text`
   color: #afafaf;
 `
 
-const Button = styled.TouchableOpacity`
-  width: 90px;
-  height: 30px;
-  border-radius: 7px;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  right: 0px;
-`;
-const FollowButton = styled(Button)`
-  background: #ff5858;
-`;
 
-const CancelButton = styled(Button)`
-  background: transparent;
-  border: 1px solid #dfdfdf;
-`;
-
-const FText = styled.Text`
-  font-size: 14px;
-  color: #ffffff;
-  font-weight: 600;
-`;
-const CText = styled.Text`
-  font-size: 14px;
-  color: #121212;
-`;
-export default function UserItem({ user }) {
+export default function UserItem({ user, handleFollow, handleCancel }) {
   return (
     <Wrapper>
-      <ProfileImage source={{ uri: user.profileImage }} />
+      <ProfileImage source={{ uri: user.profileImgUrl }} />
       <Info>
-      <Name>{user.name}</Name>
+      <Name>{user.nickname}</Name>
       <Description>팔로워 { user.followerCount} 팔로잉 {user.followingCount}</Description>
       </Info>
       
-      {user.isFollowing ? (
-        <CancelButton>
-          <CText>팔로우 취소</CText>
-        </CancelButton>
-      ) : (
-        <FollowButton>
-          <FText>팔로우</FText>
-        </FollowButton>
-      )}
+      <RelationButton handleFollow={handleFollow} handleCancel={handleCancel} user={user} />
     </Wrapper>
   );
 }
