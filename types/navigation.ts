@@ -3,8 +3,11 @@ type StartStackParamList = {
     Login: undefined;
     Signup: undefined;
     Main: undefined; 
+
     WriteContent: { imageUri: string };
     SelectPhoto: undefined;
+
+    ProfileCamera: undefined;
   };
    
 type TabParamList = {
@@ -26,4 +29,6 @@ type UserStackParamList = {
   Write: undefined;
   Relations : { listMode: string };
   FavoriteList: { isFavoriteList: boolean }
+  Camera: undefined;
+  DetailPost: { post: any }
 }

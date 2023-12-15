@@ -7,6 +7,7 @@ import UserLink from "../../../components/Search/UserLink";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import UserItem from "components/Relation/UserItem";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Wrapper = styled.View`
   display: flex;
@@ -44,7 +45,8 @@ const SearchButton = styled.TouchableOpacity`
 `;
 
 const UserList = styled.FlatList`
-  width: 90%;
+  width: 100%;
+
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -70,7 +72,7 @@ export default function Search({ navigation }) {
           Authorization: `Bearer ${token}`
         }
       });
-      setUsers(res.data.result)
+      setUsers(res.data.result.filter(item => item.nickname.includes(text)))
     } catch(error) {
       console.log(error)
     }
@@ -105,14 +107,19 @@ export default function Search({ navigation }) {
   };
 
   useEffect(() => {
+    if(!users) return;
     convertIdsToProfiles();
   }, [users])
 
-  
+  // useFocusEffect(() => {
+  //   if(!users) return;
+  //   convertIdsToProfiles();
+  // })
+
   return (
     <Wrapper>
       <Header>
-        <InputUsername placeholder="검색" onChangeText={handleChangeText}/>
+        <InputUsername placeholder="검색" autoCapitalize="none" onChangeText={handleChangeText}/>
         <SearchButton>
           <Feather size={20} color="#afafaf" name="search" />
         </SearchButton>

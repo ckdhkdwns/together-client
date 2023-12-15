@@ -54,7 +54,8 @@
     "react-native-webview": "13.2.2",
     "recoil": "^0.7.7",
     "styled-component": "^2.8.0",
-    "styled-components": "^6.1.1"
+    "styled-components": "^6.1.1",
+    "expo-camera": "~13.4.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

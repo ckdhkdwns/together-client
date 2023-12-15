@@ -9,6 +9,7 @@ const Wrapper = styled.View`
   padding: 15px 0;
   position: relative;
   background: #ffffff;
+
 `;
 
 const ProfileImage = styled.Image`

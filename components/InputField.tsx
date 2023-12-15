@@ -24,6 +24,7 @@ const InputHeader = styled.View`
   justify-content: space-between;
   gap: 5px;
   height: 15px;
+  font-size: 16px;
 `;
 const InputTitle = styled.Text`
   font-size: 14px;

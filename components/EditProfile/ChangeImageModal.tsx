@@ -22,15 +22,16 @@ const Button = styled.TouchableOpacity`
 `;
 
 type ChangeImageModalProps = {
+    handleCamera: Function,
     handleImageButton: Function,
     handleDeleteButton: Function,
     setIsModalOpen: Function
 }
-export default function ChangeImageModal({ handleImageButton, handleDeleteButton, setIsModalOpen }: ChangeImageModalProps) {
+export default function ChangeImageModal({ handleCamera, handleImageButton, handleDeleteButton, setIsModalOpen }: ChangeImageModalProps) {
     const IconSize = 44;
   return (
     <Wrapper>
-      <Button onPress={() => setIsModalOpen(false)}>
+      <Button onPress={() => handleCamera()}>
         <FontAwesome name="camera" size={IconSize} color="black" />
       </Button>
       <Button onPress={()=> handleImageButton()}>

@@ -58,11 +58,7 @@ export default function HomeHeader() {
   return (
     <SafeAreaView style={{ paddingBottom: -50, backgroundColor: "#ffffff" }}>
       <Header>
-        {routeName == "Search" && (
-          <PrevButton onPress={() => handlePrevButton()}>
-            <Feather name="chevron-left" size={40} color="#9f9f9f" />
-          </PrevButton>
-        )}
+
 
         <TitleText color="#000000" fontSize={33} />
 

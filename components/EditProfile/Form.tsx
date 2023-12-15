@@ -45,7 +45,7 @@ export default function Form({ inputType, value, ...props }: FormProps) {
     <Wrapper>
       <Title>{inputType}</Title>
       <TInput autoCapitalize="none" onChangeText={props.onChangeText} value={value} />
-      {/* <ConfirmButton>
+      {/* <ConfirmButton onPress={() => handleConfirm()}>
         <Feather name="check" size={30} color="#ff5858" />
       </ConfirmButton> */}
     </Wrapper>

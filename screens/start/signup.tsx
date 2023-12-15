@@ -8,12 +8,16 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 const Wrapper = styled.View`
   display: flex;
   flex-direction: column;
-  background: #f1f1f1;
+  background: #ffffff;
   height: 100%;
   align-items: center;
   justify-content: center;
 `;
 
+const Title = styled.Text`
+  font-size: 44px;
+
+`
 const SignupBox = styled.View`
   /* background: #fcfcfc; */
   border-radius: 30px;
@@ -76,11 +80,11 @@ export default function SignUp({ navigation }) {
   });
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const validCheck = () => {
-    
-  }
+
   const handleSignup = async () => {
     const copyedErrors = JSON.parse(JSON.stringify(errorMessages));
+    const emailRegex = '^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
+    const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/
     if(form.email == "") {
       copyedErrors["email"] =  "이메일을 입력해주세요.";
       setErrorMessages(copyedErrors);
@@ -109,7 +113,10 @@ export default function SignUp({ navigation }) {
       copyedErrors["password"] =  "비밀번호를 입력해주세요.";
       setErrorMessages(copyedErrors);
       return;
-    } else {
+    } else if(korean.test(form.password)) {
+      copyedErrors["password"] = "비밀번호에 한글이 있습니다.";
+      return;
+    }else {
       copyedErrors["password"] =  "";
     }
 
@@ -127,7 +134,20 @@ export default function SignUp({ navigation }) {
         `${process.env.SERVER_IP}/api/auth/sign-up`,
         form
       );
-      console.log(res.data);
+      if(!res.data.success && res.data.error.code == 1003) {
+        setErrorMessages({
+          ...copyedErrors,
+          ["email"]: res.data.error.message,
+        });
+        return;
+      }
+      if(!res.data.success && res.data.error.code == 1004) {
+        setErrorMessages({
+          ...copyedErrors,
+          ["nickname"]: res.data.error.message,
+        });
+        return;
+      }
 
       navigation.navigate("Login");
     } catch (error) {
@@ -153,15 +173,16 @@ export default function SignUp({ navigation }) {
     <KeyboardAwareScrollView
     contentContainerStyle={{ flex: 1 }}
     extraScrollHeight={20}
+    scrollEnabled={false}
   >
     <Wrapper>
+      
       <SignupBox>
         <TitleText color="#000000" fontSize={44} />
         <Inputs>
           <InputField
             inputType="이메일"
             error={errorMessages.email}
-            autoFocus
             value={form.email}
             placeholder="you@example.com"
             onChangeText={(text) => handleInputChange(text, "email")}

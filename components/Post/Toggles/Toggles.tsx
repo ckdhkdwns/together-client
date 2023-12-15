@@ -9,15 +9,13 @@ const Wrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
 
-  height: 50px;
+  height: 40px;
   align-items: center;
-  padding: 15px 0 10px;
+  padding: 15px 0 5px;
+  border: 0px solid #efefef;
+  /* border-bottom-width: 1px; */
 `;
 
-const Left = styled.View`
-  flex-direction: row;
-  gap: 20px;
-`;
 type TogglesProps = {
   likeCount: number;
 

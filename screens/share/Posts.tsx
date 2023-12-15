@@ -25,8 +25,13 @@ const PostList = styled.FlatList`
   width: 100%;
 `;
 
+const NonePostText = styled.Text`
+  font-size: 16px;
+  background: #ffffff;
+  padding: 80% 0 120%;
+`
 export default function Posts({ route }) {
-  const [posts, setPosts] = useState();
+  const [posts, setPosts] = useState<[]>([]);
   const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
   const isFocused = useIsFocused();
 
@@ -40,7 +45,8 @@ export default function Posts({ route }) {
             Authorization: `Bearer ${token}`
           }
         });
-        setPosts(res.data.result);
+
+        setPosts(res.data.result.posts);
 
       } else {
         const res = await axios.get(
@@ -62,20 +68,22 @@ export default function Posts({ route }) {
   
   useEffect(() => {
     if (isFocused) {
-      console.log("포스트를 받아옵니다.");
       loadPosts();
     }
   }, [isFocused]);
 
-  // useEffect(() => {
-  //   console.log(posts[2].comments)
-  // }, [posts]);
+  useEffect(() => {
+    console.log(posts)
+  }, [posts]);
   return (
     <KeyboardAwareScrollView
     extraScrollHeight={48}
     >
       <Wrapper>
-        <PostList
+        {posts.length == 0 && <NonePostText>
+            유저들을 팔로우하고 최신 게시물들을 확인해보세요
+          </NonePostText>}
+        {posts.length != 0 && <PostList
           data={posts}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
@@ -92,7 +100,7 @@ export default function Posts({ route }) {
           }}
         >
           {/* {map contents} */}
-        </PostList>
+        </PostList>}
       </Wrapper>
     </KeyboardAwareScrollView>
   );

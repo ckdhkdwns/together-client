@@ -8,6 +8,7 @@ import styled from 'styled-components/native'
 const Wrapper = styled.View`
   background: #ffffff;
   height: 100%;
+  padding-top: 3px;
 `
 
 const LogoutButton = styled.TouchableOpacity`

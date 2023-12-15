@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "software",
+    "name": "Together",
     "slug": "software",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -25,6 +25,16 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "expo": {
+      "plugins": [
+        [
+          "expo-camera",
+          {
+            "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+          }
+        ]
+      ]
     }
   }
 }

@@ -1,4 +1,4 @@
-import { userInfoAtom, userPageStateAtom } from "atoms";
+import { userInfoAtom } from "atoms";
 import UserItem from "components/Relation/UserItem";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
@@ -16,42 +16,41 @@ const Wrapper = styled.View`
   height: 100%;
 `;
 
-const Header = styled.View`
-  width: 90%;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: center;
-`;
+const Header = styled.View``;
 
 const Search = styled.View`
-  height: 50px;
-  background: #f2f2f2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   position: relative;
-  margin-top: 15px;
-  width: 90%;
-  border-radius: 10px;
-`;
-const SearchInput = styled.TextInput`
-  height: 50px;
-  margin-left: 50px;
-  font-size: 21px;
+  width: 100%;
+  padding: 10px 15px;
 `;
 
 const Icon = styled.View`
+  width: 40px;
+  height: 40px;
+  display: flex;
   position: absolute;
-  left: 5px;
-  top: 3px;
-  height: 45px;
-  width: 45px;
+  border-radius: 50px;
   justify-content: center;
   align-items: center;
-  border-radius: 20px;
+  left: 20px;
+`;
+const SearchInput = styled.TextInput`
+  font-size: 16px;
+  padding: 12px 19px;
+  padding-left: 45px;
+  border: 0px solid #f8f8f8;
+  background: #f3f3f3;
+  width: 100%;
+  border-radius: 10px;
 `;
 
 const Divider = styled.View`
   width: 100%;
   height: 1px;
-  margin-top: 15px;
+
   background: #efefef;
 `;
 const ToggleWrapper = styled.View`
@@ -132,33 +131,54 @@ export default function RelationList({ route }) {
   };
 
   const handleFollow = async (userId) => {
-    const token = await AsyncStorage.getItem('token');
-    try{
-      const res = await axios.post(`${process.env.SERVER_IP}/api/user/follow/${userId}`, null, {
-        headers: {
-          Authorization: token
+    const token = await AsyncStorage.getItem("token");
+    try {
+      const res = await axios.post(
+        `${process.env.SERVER_IP}/api/user/follow/${userId}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      })
-
-    } catch(error) {
-
+      );
+      setUserList(userList.map((user) => {
+        if (user.userId == userId) {
+          user.isFollowing = true;
+          user.followerCount += 1
+        }
+        return user;
+      }));
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const handleCancel = async (userId) => {
-    console.log("취소, ", userId)
-    const token = await AsyncStorage.getItem('token');
-    try{
-      const res = await axios.delete(`${process.env.SERVER_IP}/api/user/follow/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
+    const token = await AsyncStorage.getItem("token");
+    try {
+      const res = await axios.delete(
+        `${process.env.SERVER_IP}/api/user/follow/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      })
-      console.log(res.data);
-      setUserList(userList.filter(user => 
-        user.userId != userId
-      ))
-    } catch(error) {
+      );
+      if (listMode == "팔로워")
+        setUserList(
+          userList.map((user) => {
+            if (user.userId == userId) {
+              user.isFollowing = false;
+              user.followerCount -= 1
+            }
+            return user;
+          })
+        );
+      else {
+        setUserList(userList.filter((user) => user.userId != userId));
+      }
+    } catch (error) {
       console.error(error);
     }
   };
@@ -177,12 +197,12 @@ export default function RelationList({ route }) {
       <Search>
         <SearchInput placeholder={userInfo.email} />
         <Icon>
-          <Feather size={24} color="#9a9a9a" name="search" />
+          <Feather size={20} color="#afafaf" name="search" />
         </Icon>
       </Search>
       <Divider></Divider>
       <ToggleWrapper>
-        <ToggleTitle>팔로잉 목록</ToggleTitle>
+        <ToggleTitle>{listMode} 목록</ToggleTitle>
         <Toggles>
           <ListModeButton
             title="팔로잉"

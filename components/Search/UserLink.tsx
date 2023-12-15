@@ -1,5 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
 import React, { useEffect } from "react";
 import styled from "styled-components/native";
 
@@ -7,7 +5,7 @@ const Wrapper = styled.TouchableOpacity`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 15px 0;
+  padding: 15px 20px;
   position: relative;
   background: #ffffff;
 `;
@@ -34,12 +32,8 @@ const Description = styled.Text`
 `
 
 export default function UserLink({ handleUserLink, user }) {
-
-  useEffect(() => {
-    console.log(user)
-  }, [])
   return (
-    <Wrapper>
+    <Wrapper onPress={() => handleUserLink(user.userId)}>
       <ProfileImage source={{ uri: user.profileImgUrl }} />
       <Info>
       <Name>{user.nickname}</Name>

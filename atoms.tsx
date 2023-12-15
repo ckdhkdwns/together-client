@@ -1,14 +1,20 @@
 import { atom } from "recoil";
 
-export const userPageStateAtom = atom({
-  key: "userPageState",
-  default: "profile", // profile, edit, write, post(user's specific post)
-});
+export const editProfileDataAtom = atom({
+  key: "editProfileImageUrl",
+  default: {
+    profileImageUrl: "",
+    nickname: "",
+    description: "",
+    isImageDeleted: false
+  }
+})
 
 export const userInfoAtom = atom<UserProfile>({
   key: "userInfo",
   default:{
     postCount: 0,
+    posts: [{ id: 0, imgUrl: "" }],
     articles: {
       id: 0,
       image: ""

@@ -9,27 +9,50 @@ import InputField from "components/InputField";
 import { useRecoilState } from "recoil";
 import { userInfoAtom } from "atoms";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Dimensions } from "react-native";
 
 const Wrapper = styled.View`
   display: flex;
   flex-direction: column;
-  background: #f1f1f1;
+  background: #efefef;
   height: 100%;
   align-items: center;
   justify-content: center;
+  gap: 40px;
+  padding-top: 120px;
 `;
 
-const LoginBox = styled.View`
-  width: 100%;
+const BackgroundCircle = styled.View`
+  position: absolute;
+  width: 1000px;
+  height: 1000px;
+  border-radius: 1000px;
+  top: -500px;
+  background-color: #ff5858ef;
+`
 
+const Title = styled.View`
+ width: 90%;
+ padding-left: 10px;
+`
+const TitleDescription = styled.Text`
+  color: #ffffff;
+  font-size: 16px;
+  margin: 5px;
+  margin-left: 12px;
+`
+
+const LoginBox = styled.View`
+  width: 86%;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border-radius: 30px;
-  width: 325px;
+
   display: flex;
   flex-direction: column;
   margin-bottom: 19px;
-  padding-top: 34px;
+  padding-top: 0px;
   padding-bottom: 35px;
-
+  background: #ffffff;
 `;
 
 const Inputs = styled.View`
@@ -49,8 +72,10 @@ const LoginButton = styled(Button)`
 `;
 
 const SignupButton = styled.TouchableOpacity`
-  width: 300px;
-  flex-direction: row-reverse;
+
+  margin: 20px auto 0;
+  
+
 `;
 
 const LButtonText = styled.Text`
@@ -127,6 +152,13 @@ export default function Login({ navigation }: loginProps) {
         });
         return;
       }
+      if (!res.data.success && res.data.error.code == 1002) {
+        setErrorMessages({
+          ...copyedErrors,
+          ["password"]: res.data.error.message,
+        });
+        return;
+      }
 
       const token = res.data.result.token;
       initProfile(token);
@@ -166,12 +198,18 @@ export default function Login({ navigation }: loginProps) {
 
   return (
     <KeyboardAwareScrollView
-      contentContainerStyle={{ flex: 1 }}
+      contentContainerStyle={{ flex: 1,  }}
       extraScrollHeight={20}
+      scrollEnabled={false}
     >
       <Wrapper>
+        <BackgroundCircle />
+        <Title>
+        <TitleText color="#ffffff" fontSize={54} />
+
+        </Title>
+        
         <LoginBox>
-          <TitleText color="#000000" fontSize={44} />
           <Inputs>
             <InputField
               inputType="이메일"
@@ -192,10 +230,11 @@ export default function Login({ navigation }: loginProps) {
           <LoginButton onPress={handleLogin}>
             <LButtonText>로그인</LButtonText>
           </LoginButton>
-        </LoginBox>
-        <SignupButton onPress={onPressSignup}>
+          <SignupButton onPress={onPressSignup}>
           <RButtonText>계정이 없으신가요? 회원가입</RButtonText>
         </SignupButton>
+        </LoginBox>
+
       </Wrapper>
     </KeyboardAwareScrollView>
   );

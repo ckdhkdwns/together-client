@@ -3,13 +3,14 @@ import styled from "styled-components/native";
 import { Image } from "react-native";
 import InfoItem from "../../components/UserProfile/InfoItem";
 import { FontAwesome } from "@expo/vector-icons";
-import { userInfoAtom, userPageStateAtom } from "atoms";
+import { userInfoAtom } from "atoms";
 import { useRecoilState } from "recoil";
 import { AntDesign } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import PostImages from "components/UserProfile/PostImages/PostImages";
 import RelationButton from "components/Relation/RelationButton";
+import { useIsFocused } from "@react-navigation/native";
 
 const Wrapper = styled.View`
   display: flex;
@@ -27,8 +28,8 @@ const Information = styled.View`
 `;
 
 const ProfileImage = styled.Image`
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   border-radius: 100px;
   margin-top: 10px;
   margin-left: 20px;
@@ -37,7 +38,7 @@ const ProfileImage = styled.Image`
 const InfoWrapper = styled.View`
   display: flex;
   width: 70%;
-  padding: 8px 10px;
+  padding: 12px 10px 10px;
 `;
 
 const InfoHeader = styled.View`
@@ -107,6 +108,8 @@ export default function UserProfile({ navigation, route }) {
   const [userInfo, setUserInfo] = !route.params.userId
     ? useRecoilState(userInfoAtom)
     : useState();
+    
+  const isFocused = useIsFocused();
 
   const handleEditButton = () => {
     navigation.navigate("Edit");
@@ -119,6 +122,7 @@ export default function UserProfile({ navigation, route }) {
   const loadOtherProfile = async () => {
     const token = await AsyncStorage.getItem("token");
     try {
+      console.log("유저 아이디: ", route.params.userId);
       const res = await axios.get(
         `${process.env.SERVER_IP}/api/user/${route.params.userId}`,
         {
@@ -127,6 +131,7 @@ export default function UserProfile({ navigation, route }) {
           },
         }
       );
+      
       setUserInfo(res.data.result);
     } catch (error) {
       console.log(error);
@@ -202,7 +207,7 @@ export default function UserProfile({ navigation, route }) {
     } else {
       loadMyProfile();
     }
-  }, []);
+  }, [isFocused]);
 
   return (
     <Wrapper>
@@ -249,7 +254,7 @@ export default function UserProfile({ navigation, route }) {
         ) : <RelationButton handleFollow={handleFollowButton} handleCancel={handleUnFollowButton} user={userInfo}/>}
       </Middle>
 
-      <PostImages postImageUrls={userInfo?.posts} />
+      {userInfo?.posts && <PostImages postImageUrls={userInfo.posts} />}
     </Wrapper>
   );
 }

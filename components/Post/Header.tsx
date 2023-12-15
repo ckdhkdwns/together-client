@@ -39,24 +39,26 @@ type PostHeaderProps = {
     writedAt: number[]
 }
 export default function PostHeader({ image, username, writedAt }:PostHeaderProps) {
-  const [formattedDate, setFormattedDate] = useState(
-    moment({
+  const [formattedDate, setFormattedDate] = useState<any>()
+  
+  useEffect(() => {
+    if(typeof writedAt == "undefined") return;
+    setFormattedDate(moment({
       year: writedAt[0],
       month: writedAt[1] - 1,
       day: writedAt[2],
       hour: writedAt[3],
       minute: writedAt[4],
       second: writedAt[5]
-    })
-  )
-  
+    }))
+  }, [writedAt])
   
   return (
     <Wrapper>
         <ProfileImage source={{ uri: image }} />
         <Info>
         <Username>{username}</Username>
-        <Datetime>{formattedDate.startOf('second').fromNow()}</Datetime>
+        <Datetime>{formattedDate && formattedDate.startOf('second').fromNow()}</Datetime>
         </Info>
         
     </Wrapper>
